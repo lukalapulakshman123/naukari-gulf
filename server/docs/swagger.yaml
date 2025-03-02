@@ -1,0 +1,102 @@
+basePath: /api
+definitions:
+  configdb.Books:
+    properties:
+      author:
+        type: string
+      id:
+        type: string
+      title:
+        type: string
+      year:
+        type: integer
+    required:
+    - author
+    - title
+    - year
+    type: object
+  main.bookRequest:
+    properties:
+      author:
+        type: string
+      title:
+        type: string
+      year:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: API for managing books in a library.
+  termsOfService: http://swagger.io/terms/
+  title: Book Management API
+  version: "1.0"
+paths:
+  /books:
+    get:
+      description: Fetch all books or a specific book by ID
+      parameters:
+      - description: Book ID
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/configdb.Books'
+      summary: Get books (all or by ID)
+      tags:
+      - books
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Book details
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/main.bookRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/configdb.Books'
+      summary: Add a new book
+      tags:
+      - books
+  /books/{id}:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Book ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Updated book details
+        in: body
+        name: book
+        required: true
+        schema:
+          $ref: '#/definitions/main.bookRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/configdb.Books'
+      summary: Update a book
+      tags:
+      - books
+swagger: "2.0"
